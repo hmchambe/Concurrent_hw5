@@ -26,7 +26,7 @@ MissionaryThread::MissionaryThread(int id)
 	ThreadName << "InnocentMissionary[" << id << "]" << '\0';
 }
 
-void CannibalThread:ThreadFunc()
+void CannibalThread::ThreadFunc()
 {
 	char buf[512];
 	sprintf(buf, "%*cCannibal %d starts\n", id, ' ', id);
@@ -34,10 +34,9 @@ void CannibalThread:ThreadFunc()
 	while(1)
 	{
 		Delay();
-
 		sprintf(buf, "%*cCannibal %d arrives\n", id, ' ', id);
 		write(1, buf, strlen(buf));
-		MyMonitor->CannibalArrives(id);
+		myMonitor->CannibalArrives(id);
 		Delay();
 		Delay();
 	}
@@ -64,18 +63,6 @@ void BoatThread::ThreadFunc()
 		currentTrip += 1;	
 	}
 	Exit();
-}
-
-void CannibalThread::ThreadFunc()
-{
-	char buf[512];
-	sprintf(buf, "%*cCannibal %d starts\n", id, ' ', id);
-	write(1, buf, strlen(buf));
-	while(1)
-	{
-		
-
-	}
 }
 
 void MissionaryThread::ThreadFunc()

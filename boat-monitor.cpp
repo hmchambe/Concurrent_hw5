@@ -70,9 +70,10 @@ void MyMonitor::BoatReady()
 					MissionaryLine->Signal();
 				}
 				CannibalLine->Signal();
-				int cannibal = 1;
-				int firstMiss = 0;
-				int secondMiss = 2;
+				int cannibal, firstMiss, secondMiss; 
+				cannibal = 1;
+				firstMiss = 0;
+				secondMiss = 2;
 				if(passengerRole[0] == 0)
 				{
 					cannibal = 0;
@@ -126,6 +127,8 @@ void MyMonitor::BoatDone(int totalTrips)
 		}
 		sprintf(buffer, "MONITOR: %d crosses have been made\nMONITOR: This river cross is closed indefinitely for renovation\n", trip);
 		write(1, buffer, strlen(buffer));
+		MonitorEnd();
+		Exit();
 	}
 	MonitorEnd();
 }
