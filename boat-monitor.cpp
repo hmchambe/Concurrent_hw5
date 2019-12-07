@@ -162,23 +162,6 @@ void MyMonitor::MissionaryArrives(int missionaryName)
 	MonitorEnd();
 }
 
-CannibalThread:ThreadFunc()
-{
-	char buf[512];
-	sprintf(buf, "%*cCannibal %d starts\n", id, ' ', id);
-	write(1, buf, strlen(buf));
-	while(1)
-	{
-		Delay();
-
-		sprintf(buf, "%*cCannibal %d arrives\n", id, ' ', id);
-		write(1, buf, strlen(buf));
-		MyMonitor->CannibalArrives(id);
-		Delay();
-		Delay();
-	}
-}
-
 void MyMonitor::CannibalArrives(int cannibalName)
 {	// Basically the same as MissionaryArrives()
 	MonitorBegin();
