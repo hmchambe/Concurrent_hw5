@@ -2,18 +2,19 @@
 
 #ifndef THREAD_STUFF
 #define THREAD_STUFF
+#include "ThreadClass.h"
 #include <math.h>
 #include <stdio.h>
 #include <iostream>
 #include <cstring>
-#include "thread-support.h"
+#include <stdlib.h>
 
 
 class CannibalThread : public Thread
 {
         public:
         // constructor
-        ElfThread(int id);
+        CannibalThread(int id);
         private:
         void ThreadFunc();
         int id;
@@ -23,10 +24,10 @@ class MissionaryThread : public Thread
 {
 	public:
 	// constructor
-
+	MissionaryThread(int id);
 	private:
 	void ThreadFunc();
-
+	int id;
 
 };
 
@@ -35,8 +36,11 @@ class BoatThread : public Thread
 
 	public:
 	// constructor
+	BoatThread(int boat);
 
 	private:
 	void ThreadFunc();
-
+	int boat;
 };
+
+#endif
