@@ -5,7 +5,10 @@ MyMonitor::MyMonitor(char *Name)
 	: Monitor(Name, HOARE)
 {
 	srand(time(NULL));
-	isMissionarySafe = false;
+	
+
+
+sionarySafe = false;
 	boarded = false;
 	boatReady = false;
 	trip = 0;
@@ -29,7 +32,7 @@ MyMonitor::MyMonitor(char *Name)
 // COMPLETE
 bool MyMonitor::isMissionarySafe()
 {
-	return isMissionarySafe;
+	return missionarySafe;
 }
 
 // COMPLETE
@@ -133,7 +136,7 @@ void MyMonitor::MissionaryArrives(int missionaryName)
 	}
 	missionariesWaiting += 1;
 
-	if(!isMissionarySafe) isMissionarySafe = true;
+	if(!missionarySafe) missionarySafe = true;
 	MissionaryLine->Wait();
 	if(!boatReady)
 	{
@@ -144,7 +147,7 @@ void MyMonitor::MissionaryArrives(int missionaryName)
 	passengerNumber[passengerAmount] = missionaryName + 1;
 	// Identifying as a missionary
 	passengerRole[passengerAmount] = 1;
-	if(isMissionarySafe) isMissionarySafe = false;
+	if(missionarySafe) missionarySafe = false;
 	passengerAmount += 1;
 	if(passengerAmount == 3) boarded = true;
 	BoatLine->Wait();
@@ -182,7 +185,7 @@ void MyMonitor::CannibalArrives(int cannibalName)
 	}
 
 	cannibalsWaiting += 1;
-	if(!isMissionarySafe) isMissionarySafe = true;
+	if(!missionarySafe) missionarySafe = true;
 	CannibalLine->Wait();
 	if(!boatReady)
 	{
@@ -193,7 +196,7 @@ void MyMonitor::CannibalArrives(int cannibalName)
 	passengerNumber[passengerAmount] = cannibalName + 1;
 	// Identifying as a missionary
 	passengerRole[passengerAmount] = 1;
-	if(isMissionarySafe) isMissionarySafe = false;
+	if(missionarySafe) missionarySafe = false;
 	passengerAmount += 1;
 	if(passengerAmount == 3) boarded = true;
 	BoatLine->Wait();

@@ -1,7 +1,7 @@
 //Contains all class definitions of threads
 
-#ifndef THREAD_STUFF
-#define THREAD_STUFF
+#ifndef _THREAD_STUFF
+#define _THREAD_STUFF
 #include "ThreadClass.h"
 #include <math.h>
 #include <stdio.h>

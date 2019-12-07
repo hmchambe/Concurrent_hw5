@@ -24,7 +24,7 @@ class MyMonitor : public Monitor
 		Condition *BoatLine;
 		bool boarded;
 		bool boatReady;		
-		bool isMissionarySafe;	
+		bool missionarySafe;	
 		int passengerAmount;	
 		int passengerNumber[3];
 		int passengerRole[3];
