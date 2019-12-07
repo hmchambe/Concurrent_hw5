@@ -42,61 +42,55 @@ void MyMonitor::BoatReady()
 {
 	MonitorBegin();
 	char buffer[512];
-	int i, j, selectedIndex, placeholder;
-	int options[] = {2, 0, 1};
-	for(i=0; i<=2; i++)
+	int i, j, selectedIndex;
+	// Randomization process
+	selectedIndex = (int)(rand() % 3);
+	// Choosing how to fill boat, while not allowing missionaries to be eaten
+	switch(selectedIndex)
 	{
-		// Randomization process
-		placeholder = options[i];
-		selectedIndex = rand() % 3;
-		options[i] = options[selectedIndex];
-		options[selectedIndex] = placeholder;
-		// Choosing how to fill boat, while not allowing missionaries to be eaten
-		switch(options[i])
-		{
-			case 0:
-				if(missionariesWaiting >= 3)
-				{
-					for(j=0; j<3; j++)
-					{
-						MissionaryLine->Signal();
-					}
-					sprintf(buffer, "MONITOR(%d): Three missionaries are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
-				}
-				break;
-			case 1:
-				for(j=0; j<2; j++)
+		case 0:
+			if(missionariesWaiting >= 3)
+			{
+				for(j=0; j<3; j++)
 				{
 					MissionaryLine->Signal();
 				}
-				CannibalLine->Signal();
-				int cannibal, firstMiss, secondMiss; 
-				cannibal = 1;
-				firstMiss = 0;
+				sprintf(buffer, "MONITOR(%d): Three missionaries are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
+			}
+			break;
+		case 1:
+			for(j=0; j<2; j++)
+			{
+				MissionaryLine->Signal();
+			}
+			CannibalLine->Signal();
+			int cannibal, firstMiss, secondMiss; 
+			cannibal = 1;
+			firstMiss = 0;
+			secondMiss = 2;
+			if(passengerRole[0] == 0)
+			{
+				cannibal = 0;
+				firstMiss = 1;
 				secondMiss = 2;
-				if(passengerRole[0] == 0)
-				{
-					cannibal = 0;
-					firstMiss = 1;
-					secondMiss = 2;
-				}else if(passengerRole[1] == 0)
-				{
-					firstMiss = 0;
-					secondMiss = 1;
-					cannibal = 2;
-				}
-				sprintf(buffer, "MONITOR(%d): Two Missionaries (%d, %d) and one cannibal (%d) are selected\n", trip+1, passengerNumber[firstMiss], passengerNumber[secondMiss], passengerNumber[cannibal]);
-				break;
-			default:
-				for(j=0; j<3; j++)
-				{
-					CannibalLine->Signal();
-				}
-				sprintf(buffer, "MONITOR(%d): Three cannibals are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
-				break;
-		}
-		write(1, buffer, strlen(buffer));
+			}else if(passengerRole[1] == 0)
+			{
+				firstMiss = 0;
+				secondMiss = 1;
+				cannibal = 2;
+			}
+			sprintf(buffer, "MONITOR(%d): Two Missionaries (%d, %d) and one cannibal (%d) are selected\n", trip+1, passengerNumber[firstMiss], passengerNumber[secondMiss], passengerNumber[cannibal]);
+			break;
+		default:
+			for(j=0; j<3; j++)
+			{
+				CannibalLine->Signal();
+			}
+			sprintf(buffer, "MONITOR(%d): Three cannibals are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
+			break;
 	}
+	write(1, buffer, strlen(buffer));
+
 	MonitorEnd();
 
 }
@@ -185,7 +179,7 @@ void MyMonitor::CannibalArrives(int cannibalName)
 	cannibalsWaiting -= 1;
 	passengerNumber[passengerAmount] = cannibalName + 1;
 	// Identifying as a missionary
-	passengerRole[passengerAmount] = 1;
+	passengerRole[passengerAmount] = 0;
 	if(missionarySafe) missionarySafe = false;
 	passengerAmount += 1;
 	if(passengerAmount == 3) boarded = true;
