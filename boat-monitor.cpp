@@ -1,4 +1,6 @@
 #include "ThreadClass.h"
+#include "thread.h"
+#include "boat-monitor.h"
 
 // COMPLETE
 MyMonitor::MyMonitor(char *Name)
@@ -8,18 +10,18 @@ MyMonitor::MyMonitor(char *Name)
 	
 
 
-sionarySafe = false;
+	missionarySafe = false;
 	boarded = false;
 	boatReady = false;
 	trip = 0;
 	passengerAmount = 0;
-	canniblesWaiting = 0;
+	cannibalsWaiting = 0;
 	CannibalLine = new Condition("Hungry");
 	missionariesWaiting = 0;
 	MissionaryLine = new Condition("Innocent");
 	BoatLine = new Condition("OnBoat");
-	passengerNumber = new int[3];
-	passengerRole = new int [3];
+	//passengerNumber = new int[3];
+	//passengerRole = new int [3];
 
 	passengerNumber[0] = 2;
 	passengerNumber[1] = 2;
@@ -39,13 +41,13 @@ bool MyMonitor::isMissionarySafe()
 void MyMonitor::BoatReady()
 {
 	MonitorBegin();
-	
+	char buffer[512];
 	int i, j, selectedIndex, placeholder;
 	int options[] = {2, 0, 1};
 	for(i=0; i<=2; i++)
 	{
 		// Randomization process
-		placeholder = options[i]
+		placeholder = options[i];
 		selectedIndex = rand() % 3;
 		options[i] = options[selectedIndex];
 		options[selectedIndex] = placeholder;
@@ -53,7 +55,7 @@ void MyMonitor::BoatReady()
 		switch(options[i])
 		{
 			case 0:
-				if(missionaryWaiting >= 3)
+				if(missionariesWaiting >= 3)
 				{
 					for(j=0; j<3; j++)
 					{
@@ -68,7 +70,9 @@ void MyMonitor::BoatReady()
 					MissionaryLine->Signal();
 				}
 				CannibalLine->Signal();
-				int cannibal = 1, firstMiss = 0, secondMiss = 2;
+				int cannibal = 1;
+				int firstMiss = 0;
+				int secondMiss = 2;
 				if(passengerRole[0] == 0)
 				{
 					cannibal = 0;
@@ -140,7 +144,7 @@ void MyMonitor::MissionaryArrives(int missionaryName)
 	MissionaryLine->Wait();
 	if(!boatReady)
 	{
-		MonitorEnd()
+		MonitorEnd();
 		return;
 	}	
 	missionariesWaiting -= 1;
@@ -167,7 +171,7 @@ CannibalThread:ThreadFunc()
 	{
 		Delay();
 
-		sprintf(%*cCannibal %d arrives\n", id, ' ', id);
+		sprintf(buf, "%*cCannibal %d arrives\n", id, ' ', id);
 		write(1, buf, strlen(buf));
 		MyMonitor->CannibalArrives(id);
 		Delay();

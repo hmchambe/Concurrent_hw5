@@ -1,5 +1,5 @@
 CC       = c++
-FLAGS    = 
+FLAGS    =  
 CFLAGS   = -g -O2
 DFLAGS   = -DPACKAGE=\"threadsystem\" -DVERSION=\"1.0\" -DPTHREAD=1 -DUNIX_MSG_Q=1 -DSTDC_HEADERS=1
 IFLAGS   = -I/local/eit-linux/apps/ThreadMentor/include
@@ -10,7 +10,7 @@ OBJ_FILE = thread.o thread-main.o boat-monitor.o
 EXE_FILE = prog5 
 
 ${EXE_FILE}: ${OBJ_FILE}
-	${CC} ${FLAGS}  -o ${EXE_FILE}  ${OBJ_FILE} ${TMLIB_NV} -lpthread
+	${CC} ${FLAGS}  -o ${EXE_FILE}  ${OBJ_FILE} ${TMLIB_NV} -lpthread -fpreprocessed
 
 thread-main.o: thread-main.cpp
 	${CC} ${DFLAGS} ${IFLAGS} ${CFLAGS} -c thread-main.cpp

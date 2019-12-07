@@ -39,7 +39,7 @@ void BoatThread::ThreadFunc()
 		Delay();
 //TODO check this part
 		myMonitor->BoatReady();
-		sprintf(buf, "***** The boat is ready\n***** Boat load (%d): Passenger list (%s)\n***** Boat load (%d): Completed\n", currentTrip, myMonitor->passengerList(), currentTrip);
+		sprintf(buffer, "***** The boat is ready\n***** Boat load (%d): Passenger list (%s)\n***** Boat load (%d): Completed\n", currentTrip, myMonitor->passengerList(), currentTrip);
 		write(1, buffer, strlen(buffer));
 		Delay();
 		myMonitor->BoatDone(totalTrips);

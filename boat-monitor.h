@@ -8,14 +8,11 @@ class MyMonitor : public Monitor
 {
 	public:
 		MyMonitor(char* Name);
-// TODO these might be wrong
-		char* getRiderName();
-		int getCrossingNumber();
-//
+		char* passengerList();
 		void CannibalArrives(int CannibalName);
 		void MissionaryArrives(int MissionaryName);
 		void BoatReady();
-		void BoatDone();
+		void BoatDone(int totalTrips);
 		bool isMissionarySafe();
 
 	private:
@@ -33,6 +30,6 @@ class MyMonitor : public Monitor
 		int passengers;		
 		int totalTrips;
 		int trip;
-}
+};
 
 #endif
