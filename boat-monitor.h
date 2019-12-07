@@ -21,7 +21,7 @@ class MyMonitor : public Monitor
 	private:
 		Condition *MissionaryLine;
 		Condition *CannibalLine;
-		Condition *BoatLine
+		Condition *BoatLine;
 		bool boarded;
 		bool boatReady;		
 		bool isMissionarySafe;	

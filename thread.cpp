@@ -2,14 +2,14 @@
 #include "thread.h"
 #include "boat-monitor.h"
 
-static BoatMonitor *myMonitor
+static MyMonitor *myMonitor;
 
 BoatThread::BoatThread(int boat)
 		:boat(boat)
 {
 	ThreadName.seekp(0, ios::beg);
 	ThreadName << "TheAlmightyBoooaaaattt" << '\0';
-	myMonitor = new MyMonitor("TheAlmightBoooaaaattt");
+	myMonitor = new MyMonitor("TheAlmightyBoooaaaattt");
 }
 
 CannibalThread::CannibalThread(int id)
@@ -28,22 +28,25 @@ MissionaryThread::MissionaryThread(int id)
 
 void BoatThread::ThreadFunc()
 {
-	char buf[512];
-	sprintf(buf, "***** BOAT thread starts\n");
-	write(1, buf, strlen(buf));
+	char buffer[512];
+	sprintf(buffer, "***** BOAT thread starts\n");
+	write(1, buffer, strlen(buffer));
 	
-	int totalTrips = boats;
+	int totalTrips = boat;
 	int currentTrip = 1;
-	while(boats)
+	while(boat)
 	{	
 		Delay();
 //TODO check this part
-		sprintf(buf, "***** The boat is ready\n");
-		write(1, buf, strlen(buf));
-		
-
-
+		myMonitor->BoatReady();
+		sprintf(buf, "***** The boat is ready\n***** Boat load (%d): Passenger list (%s)\n***** Boat load (%d): Completed\n", currentTrip, myMonitor->passengerList(), currentTrip);
+		write(1, buffer, strlen(buffer));
+		Delay();
+		myMonitor->BoatDone(totalTrips);
+		boat -= 1;
+		currentTrip += 1;	
 	}
+	Exit();
 }
 
 void CannibalThread::ThreadFunc()
@@ -61,12 +64,12 @@ void CannibalThread::ThreadFunc()
 void MissionaryThread::ThreadFunc()
 {
 	char buf[512];
-	sprintf(buf, "%*cMissionary %d starts\n", id, ' ' id);
+	sprintf(buf, "%*cMissionary %d starts\n", id, ' ', id);
 	write(1, buf, strlen(buf));
 	while(1)
 	{
 		Delay();
-		sprintf(buf, %*cMissionary %d arrives\n", id, ' ', id);
+		sprintf(buf, "%*cMissionary %d arrives\n", id, ' ', id);
 		myMonitor->MissionaryArrives(id);
 
 
