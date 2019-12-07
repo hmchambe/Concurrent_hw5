@@ -1,8 +1,23 @@
+// ----------------------------------------------------------- 
+// NAME : Hunter Chambers                         User ID: 81276171 
+// DUE DATE : 12/06/2019                                       
+// PROGRAM ASSIGNMENT 5                                        
+// FILE NAME : boat-monitor.cpp            
+// PROGRAM PURPOSE :                                           
+//    Solves the river crossing problem concurrently using monitors      
+// ----------------------------------------------------------- 
 #include "ThreadClass.h"
 #include "thread.h"
 #include "boat-monitor.h"
 
-// COMPLETE
+// ----------------------------------------------------------- 
+// FUNCTION  Constructor                          
+//     Initialize myMonitor                            
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 MyMonitor::MyMonitor(char *Name)
 	: Monitor(Name, HOARE)
 {
@@ -31,7 +46,14 @@ MyMonitor::MyMonitor(char *Name)
 	passengerRole[2] = 2;
 }
 
-// COMPLETE
+// ----------------------------------------------------------- 
+// FUNCTION  isMissionarySafe                
+//     Tells if missionary is safe                            
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 bool MyMonitor::isMissionarySafe()
 {
 	return missionarySafe;
@@ -103,7 +125,14 @@ void MyMonitor::BoatReady()
 
 }
 
-// COMPLETE
+// ----------------------------------------------------------- 
+// FUNCTION  BoatDone                          
+//     Cleans up when boat is done                            
+// PARAMETER USAGE :                                           
+//    totalTrips -> tells the number of trips total               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 void MyMonitor::BoatDone(int totalTrips)
 {
 	MonitorBegin();
@@ -135,6 +164,14 @@ void MyMonitor::BoatDone(int totalTrips)
 	MonitorEnd();
 }
 
+// ----------------------------------------------------------- 
+// FUNCTION  MissionaryArrives                          
+//     Lets boat know that missionary is ready and waits                         
+// PARAMETER USAGE :                                           
+//    missionaryName -> missionary id
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 void MyMonitor::MissionaryArrives(int missionaryName)
 {
 	MonitorBegin();
@@ -167,6 +204,14 @@ void MyMonitor::MissionaryArrives(int missionaryName)
 	MonitorEnd();
 }
 
+// ----------------------------------------------------------- 
+// FUNCTION  CannibalArrives                          
+//     Lets boat know that the cannibal is ready and waiting                           
+// PARAMETER USAGE :                                           
+//	cannibalName: cannibal id
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 void MyMonitor::CannibalArrives(int cannibalName)
 {	// Basically the same as MissionaryArrives()
 	MonitorBegin();
@@ -200,7 +245,14 @@ void MyMonitor::CannibalArrives(int cannibalName)
 	MonitorEnd();
 }
 
-// Helper Function
+// ----------------------------------------------------------- 
+// FUNCTION  passengerList                          
+//     returns the list of passengers on the boat                            
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 char* MyMonitor::passengerList()
 {
 	int i;

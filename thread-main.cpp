@@ -1,3 +1,11 @@
+// ----------------------------------------------------------- 
+// NAME : Hunter Chambers                         User ID: 81276171 
+// DUE DATE : 12/06/2019                                       
+// PROGRAM ASSIGNMENT 5                                        
+// FILE NAME : thread-main.cpp            
+// PROGRAM PURPOSE :                                           
+//    Solves the river crossing problem concurrently using monitors      
+// ----------------------------------------------------------- 
 #include "ThreadClass.h"
 #include "thread.h"
 #include "boat-monitor.h"

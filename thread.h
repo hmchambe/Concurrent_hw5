@@ -1,5 +1,11 @@
-//Contains all class definitions of threads
-
+// ----------------------------------------------------------- 
+// NAME : Hunter Chambers                         User ID: 81276171 
+// DUE DATE : 12/06/2019                                       
+// PROGRAM ASSIGNMENT 5                                        
+// FILE NAME : thread.h            
+// PROGRAM PURPOSE :                                           
+//    Solves the river crossing problem concurrently using monitors      
+// ----------------------------------------------------------- 
 #ifndef _THREAD_STUFF
 #define _THREAD_STUFF
 #include "ThreadClass.h"

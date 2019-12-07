@@ -1,9 +1,25 @@
+// ----------------------------------------------------------- 
+// NAME : Hunter Chambers                         User ID: 81276171 
+// DUE DATE : 12/06/2019                                       
+// PROGRAM ASSIGNMENT 5                                        
+// FILE NAME : thread.cpp            
+// PROGRAM PURPOSE :                                           
+//    Solves the river crossing problem concurrently using monitors      
+// ----------------------------------------------------------- 
 #include "ThreadClass.h"
 #include "thread.h"
 #include "boat-monitor.h"
 
 static MyMonitor *myMonitor;
 
+// ----------------------------------------------------------- 
+// FUNCTION  Constructor                          
+//     Initialize BoatThread                            
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 BoatThread::BoatThread(int boat)
 		:boat(boat)
 {
@@ -12,6 +28,14 @@ BoatThread::BoatThread(int boat)
 	myMonitor = new MyMonitor("TheAlmightyBoooaaaattt");
 }
 
+// ----------------------------------------------------------- 
+// FUNCTION  Initialize CannibalThread                          
+//     Initialize myMonitor                            
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 CannibalThread::CannibalThread(int id)
 	:id(id)
 {
@@ -19,6 +43,14 @@ CannibalThread::CannibalThread(int id)
 	ThreadName << "HungryCannibal[" << id << "]" << '\0';
 }
 
+// ----------------------------------------------------------- 
+// FUNCTION  Initialize MissionaryThread                          
+//     Initialize myMonitor                            
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 MissionaryThread::MissionaryThread(int id)
 	:id(id)
 {
@@ -26,6 +58,14 @@ MissionaryThread::MissionaryThread(int id)
 	ThreadName << "InnocentMissionary[" << id << "]" << '\0';
 }
 
+// ----------------------------------------------------------- 
+// FUNCTION  ThreadFunc                          
+//     CannibalThreads main function                        
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 void CannibalThread::ThreadFunc()
 {
 	char buf[512];
@@ -38,10 +78,17 @@ void CannibalThread::ThreadFunc()
 		write(1, buf, strlen(buf));
 		myMonitor->CannibalArrives(id);
 		Delay();
-		Delay();
 	}
 }
 
+// ----------------------------------------------------------- 
+// FUNCTION  ThreadFunc                          
+//     BoatThreads main function                        
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 void BoatThread::ThreadFunc()
 {
 	char buffer[512];
@@ -53,7 +100,6 @@ void BoatThread::ThreadFunc()
 	while(boat)
 	{	
 		Delay();
-//TODO check this part
 		myMonitor->BoatReady();
 		sprintf(buffer, "***** The boat is ready\n***** Boat load (%d): Passenger list (%s)\n***** Boat load (%d): Completed\n", currentTrip, myMonitor->passengerList(), currentTrip);
 		write(1, buffer, strlen(buffer));
@@ -65,6 +111,14 @@ void BoatThread::ThreadFunc()
 	Exit();
 }
 
+// ----------------------------------------------------------- 
+// FUNCTION  ThreadFunc                          
+//     MissionaryThreads main function                        
+// PARAMETER USAGE :                                           
+//    None               
+// FUNCTION CALLED :                                           
+//    None        
+// ----------------------------------------------------------- 
 void MissionaryThread::ThreadFunc()
 {
 	char buf[512];
@@ -75,7 +129,7 @@ void MissionaryThread::ThreadFunc()
 		Delay();
 		sprintf(buf, "%*cMissionary %d arrives\n", id, ' ', id);
 		myMonitor->MissionaryArrives(id);
-
+		Delay();
 
 	}
 
