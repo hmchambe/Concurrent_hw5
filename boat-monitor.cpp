@@ -59,6 +59,7 @@ void MyMonitor::BoatReady()
 					}
 					sprintf(buffer, "MONITOR(%d): Three missionaries are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
 				}
+				write(1, buffer, strlen(buffer));
 				boatFilled = true;
 				break;
 			case 1:
@@ -83,6 +84,7 @@ void MyMonitor::BoatReady()
 					cannibal = 2;
 				}
 				sprintf(buffer, "MONITOR(%d): Two Missionaries (%d, %d) and one cannibal (%d) are selected\n", trip+1, passengerNumber[firstMiss], passengerNumber[secondMiss], passengerNumber[cannibal]);
+				write(1, buffer, strlen(buffer));
 				boatFilled = true;
 				break;
 			default:
@@ -91,11 +93,11 @@ void MyMonitor::BoatReady()
 					CannibalLine->Signal();
 				}
 				sprintf(buffer, "MONITOR(%d): Three cannibals are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
+				write(1, buffer, strlen(buffer));
 				boatFilled = true;
 				break;
 		}
 	}
-	write(1, buffer, strlen(buffer));
 
 	MonitorEnd();
 
