@@ -1,2 +1,47 @@
 # Concurrent_hw5
 River Crossing Problem with Monitors
+
+-The logic of your program
+	-> My program takes input for how many missionaries and cannibals there should be and if the input is 0, then it defaults to the correct values. These threads are made and started along with the boatThread. The boatThread is then Joined. The missionary thread prints that it started, waits some time, and then arrives. The Cannibal thread does the same thing. The boatThread prints that it started and initializes the needed variables. Then as long as 'boat' which is how many trips it will take, is non-zero it will continually call BoatReady(), Delay(), then call BoatDone(), decrement how many boat trips are left and increment what trip it is. BoatReady() generates a random selection of possible combinations, with 2 cannibals and 1 missionary not as an option, then signals the correct threads. BoatDone() does the cleanup and everything is reset.
+
+===========================================================================
+
+-Why does you program work?
+	-> My program works because I planned the interaction between the monitor and the threads well. With how the monitor is setup, it is impossible for the combination of 2 cannibals and 1 missionary to board the boat. 
+
+-The meaning, intitial value and the use of each variable. Explain why their initial values and uses are correct. Justify
+
+	bool boarded -> false because no one is boarded intially
+	bool boatReady -> false because the boat is not ready to begin with
+	bool missionarySafe -> false because not sure of initial boat conditions, however it's impossible to have a bad boat load
+	int passengerAmount ->	0 because no one is on the boat yet
+	int passengerNumber[3] -> 2 as an arbitrary value, but identifies the passenger by number
+	int passengerRole[3] -> 2 as an arbitrary value, but identifies passenger as cannibal or missionary
+	int missionariesWaiting -> 0 because no one is waiting initially
+	int cannibalsWaiting -> 0 because no one is waiting initially
+	int passengers -> current number of passengers not initialized
+	int totalTrips -> 0 number of trips to be made
+	int trip -> 0 current number of trips made
+
+===========================================================================
+
+-Every boat load has EXACTLY three persons and is safe
+	-> Every boat load has exactly three persons because the monitor only signals three threads through and they are safe because it never signals two cannibals and one missionary. It is not even an option in the case statements
+
+===========================================================================
+
+-State your policy of assembling a safe boat load clearly
+	-> I generate a random number between 0 and 2 and depending on that number depends on how the boat load is set up. If the number is 0, then it is three missionary threads that are signaled, if it is 1, then it is 2 missionaries and 1 cannibal, and if it is 2 then their are 3 cannibals signaled. There is NO option for 2 cannibals to be signaled and 1 missionary.
+
+===========================================================================
+
+-Why do CannibalArrives(), MissionaryArrives(), BoatReady(), and BoatDone() work properly?
+	-No one can get off the boat before crossing completes
+		->No one can get off the boat before they are allowed because they are blocked by BoatLine->Wait(). BoatLine isn't signaled until within BoatDone()
+
+	-While the boat is crossing the river no one can jump on and get off the boat
+		->No one can get off the boat because they are blocked by BoatLine->Wait()
+
+	-Every one on the boat has been registered properly. No one who was not registered can be on the boat
+		->
+	-No one who is on the boat for a crossing can come back and register for another crossing BEFORE the current boat load is complete
