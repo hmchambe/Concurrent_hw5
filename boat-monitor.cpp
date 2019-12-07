@@ -43,51 +43,57 @@ void MyMonitor::BoatReady()
 	MonitorBegin();
 	char buffer[512];
 	int i, j, selectedIndex;
+	bool boatFilled = false;
 	// Randomization process
 	selectedIndex = (int)(rand() % 3);
-	// Choosing how to fill boat, while not allowing missionaries to be eaten
-	switch(selectedIndex)
-	{
-		case 0:
-			if(missionariesWaiting >= 3)
-			{
-				for(j=0; j<3; j++)
+	while(!boatFilled){
+		// Choosing how to fill boat, while not allowing missionaries to be eaten
+		switch(selectedIndex)
+		{
+			case 0:
+				if(missionariesWaiting >= 3)
+				{
+					for(j=0; j<3; j++)
+					{
+						MissionaryLine->Signal();
+					}
+					sprintf(buffer, "MONITOR(%d): Three missionaries are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
+				}
+				boatFilled = true;
+				break;
+			case 1:
+				for(j=0; j<2; j++)
 				{
 					MissionaryLine->Signal();
 				}
-				sprintf(buffer, "MONITOR(%d): Three missionaries are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
-			}
-			break;
-		case 1:
-			for(j=0; j<2; j++)
-			{
-				MissionaryLine->Signal();
-			}
-			CannibalLine->Signal();
-			int cannibal, firstMiss, secondMiss; 
-			cannibal = 1;
-			firstMiss = 0;
-			secondMiss = 2;
-			if(passengerRole[0] == 0)
-			{
-				cannibal = 0;
-				firstMiss = 1;
-				secondMiss = 2;
-			}else if(passengerRole[1] == 0)
-			{
-				firstMiss = 0;
-				secondMiss = 1;
-				cannibal = 2;
-			}
-			sprintf(buffer, "MONITOR(%d): Two Missionaries (%d, %d) and one cannibal (%d) are selected\n", trip+1, passengerNumber[firstMiss], passengerNumber[secondMiss], passengerNumber[cannibal]);
-			break;
-		default:
-			for(j=0; j<3; j++)
-			{
 				CannibalLine->Signal();
-			}
-			sprintf(buffer, "MONITOR(%d): Three cannibals are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
-			break;
+				int cannibal, firstMiss, secondMiss; 
+				cannibal = 1;
+				firstMiss = 0;
+				secondMiss = 2;
+				if(passengerRole[0] == 0)
+				{
+					cannibal = 0;
+					firstMiss = 1;
+					secondMiss = 2;
+				}else if(passengerRole[1] == 0)
+				{
+					firstMiss = 0;
+					secondMiss = 1;
+					cannibal = 2;
+				}
+				sprintf(buffer, "MONITOR(%d): Two Missionaries (%d, %d) and one cannibal (%d) are selected\n", trip+1, passengerNumber[firstMiss], passengerNumber[secondMiss], passengerNumber[cannibal]);
+				boatFilled = true;
+				break;
+			default:
+				for(j=0; j<3; j++)
+				{
+					CannibalLine->Signal();
+				}
+				sprintf(buffer, "MONITOR(%d): Three cannibals are selected (%d, %d, %d)\n", trip+1, passengerNumber[0], passengerNumber[1], passengerNumber[2]);
+				boatFilled = true;
+				break;
+		}
 	}
 	write(1, buffer, strlen(buffer));
 
